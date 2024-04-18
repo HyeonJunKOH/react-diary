@@ -67,7 +67,7 @@ function App() {
   };
 
   // 기존 일기 수정
-  const onUpdate = (id, createdDate, emotionId, conatent) => {
+  const onUpdate = (id, createdDate, emotionId, content) => {
     dispatch(
       {
         type: "UPDATE",
@@ -75,7 +75,7 @@ function App() {
           id,
           createdDate,
           emotionId,
-          conatent,
+          content,
         }
       }
     )
@@ -84,11 +84,10 @@ function App() {
   const onDelete = (id) => {
     dispatch({
       type: "DELETE",
-      data: {
         id,
-      }
-    })
-  }
+    });
+  };
+
   return (
     <>
     <DiaryStateContext.Provider value={data} >
