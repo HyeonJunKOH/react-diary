@@ -44,7 +44,7 @@ const Editor = ({initData, onSubmit}) =>{
 
     return (
         <div className="Edtior">
-            <section className='date_section'>
+            <section className="date_section">
                 <h4>오늘의 날짜</h4>
                 <input
                     name='createdDate'
@@ -58,12 +58,14 @@ const Editor = ({initData, onSubmit}) =>{
                 <div className='emotion_list_wrapper'>
                     {emotionList.map((item)=>(
                         <EmotionItem
-                            onClick={()=>onChangeInput({
-                                target : {
-                                    name : "emotionId",
-                                    value : item.emotionId,
-                                },
-                            })}
+                            onClick={()=>
+                                onChangeInput({
+                                    target : {
+                                        name : "emotionId",
+                                        value : item.emotionId,
+                                    },
+                                })
+                            }
                             key={item.emotionId}
                             {...item} 
                             isSelected={item.emotionId === input.emotionId}
