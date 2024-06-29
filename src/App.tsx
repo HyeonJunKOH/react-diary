@@ -13,6 +13,10 @@ import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Notfound from "./pages/Notfound";
 
+
+
+
+
 function reducer(state, action) {
   let nextState;
 
@@ -83,7 +87,7 @@ function App() {
   }, []);
 
   // 새로운 일기 추가
-  const onCreate = (createdDate, emotionId, content) => {
+  const onCreate = (createdDate:string, emotionId:number, content:string) => {
     dispatch({
       type: "CREATE",
       data: {
@@ -96,7 +100,7 @@ function App() {
   };
 
   // 기존 일기 수정
-  const onUpdate = (id, createdDate, emotionId, content) => {
+  const onUpdate = (id:number, createdDate:string, emotionId:number, content:string) => {
     dispatch({
       type: "UPDATE",
       data: {
@@ -109,7 +113,7 @@ function App() {
   };
 
   // 기존 일기 삭제
-  const onDelete = (id) => {
+  const onDelete = (id:number) => {
     dispatch({
       type: "DELETE",
       id,
