@@ -14,6 +14,8 @@ const Viewer:React.FC<ViewerProps> = ({ emotionId, content }) => {
     (item) => String(item.emotionId) === String(emotionId)
   );
 
+
+  const emotionImage = getEmotionImage(emotionId);
   return (
     <div className="Viewer">
       <section className="img_section">
@@ -21,7 +23,7 @@ const Viewer:React.FC<ViewerProps> = ({ emotionId, content }) => {
         <div
           className={`emotion_img_wrapper emotion_img_wrapper_${emotionId}`}
         >
-          <img src={getEmotionImage(emotionId)} />
+          {emotionImage && <img src={emotionImage} alt={`Emotion ${emotionId}`} />}
           <div>{emotionItem.emotionName}</div>
         </div>
       </section>
