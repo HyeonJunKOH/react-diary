@@ -4,7 +4,7 @@ import "./Button.css";
 // props 타입 정의
 interface ButtonProps {
     text: string;
-    type: "primary" | "secondary" | "danger";
+    type?: "primary" | "secondary" | "danger";
     onClick: () => void;
 }
 
