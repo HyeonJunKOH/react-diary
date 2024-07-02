@@ -1,6 +1,15 @@
 import "./Header.css";
 
-const Header = ({title, leftChild, rightChild}) => {
+
+// Header 인터페이스 정의
+interface HeaderProps{
+    title: string,
+    leftChild: string,
+    rightChild: string
+}
+
+
+const Header:React.FC<HeaderProps> = ({title, leftChild, rightChild}) => {
     return (
         <header className="Header">
             <div className="header_left">{leftChild}</div>

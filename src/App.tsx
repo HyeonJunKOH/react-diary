@@ -13,8 +13,25 @@ import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Notfound from "./pages/Notfound";
 
-function reducer(state, action) {
-  let nextState;
+
+// 일기 항목 타입 정의
+interface Diary{
+  id: number;
+  createdDate: string;
+  emotionId: number;
+  content: string;
+}
+
+// 액션타입 정의
+type Action =
+  | { type: "INIT"; data: Diary[] }
+  | { type: "CREATE"; data: Diary }
+  | { type: "UPDATE"; data: Diary }
+  | { type: "DELETE"; id: number };
+
+
+function reducer(state:Diary[], action:Action):Diary[] {
+  let nextState:Diary[];
 
   switch (action.type) {
     case "INIT":
@@ -45,8 +62,13 @@ function reducer(state, action) {
   return nextState;
 }
 
-export const DiaryStateContext = createContext();
-export const DiaryDispatchContext = createContext();
+// 컨텍스트 타입 정의
+export const DiaryStateContext = createContext<Diary[] | undefined>(undefined);
+export const DiaryDispatchContext = createContext<{
+  onCreate: (createdDate: string, emotionId: number, content: string) => void;
+  onUpdate: (id: number, createdDate: string, emotionId: number, content: string) => void;
+  onDelete: (id: number) => void;
+} | undefined>(undefined);
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -83,7 +105,7 @@ function App() {
   }, []);
 
   // 새로운 일기 추가
-  const onCreate = (createdDate, emotionId, content) => {
+  const onCreate = (createdDate:string, emotionId:number, content:string) => {
     dispatch({
       type: "CREATE",
       data: {
@@ -96,7 +118,7 @@ function App() {
   };
 
   // 기존 일기 수정
-  const onUpdate = (id, createdDate, emotionId, content) => {
+  const onUpdate = (id:number, createdDate:string, emotionId:number, content:string) => {
     dispatch({
       type: "UPDATE",
       data: {
@@ -109,7 +131,7 @@ function App() {
   };
 
   // 기존 일기 삭제
-  const onDelete = (id) => {
+  const onDelete = (id:number) => {
     dispatch({
       type: "DELETE",
       id,

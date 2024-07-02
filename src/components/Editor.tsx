@@ -6,8 +6,22 @@ import { useNavigate } from 'react-router-dom';
 import { emotionList } from '../util/constants';
 import { getStringedDate } from '../util/get-stringed-date';
 
+// Editor 인터페이스 정의
+interface EditorProps {
+    initData?: {
+        createdDate: string;
+        emotionId: number;
+        content: string;
+    };
+    onSubmit: (input: {
+        createdDate: Date;
+        emotionId: number;
+        content: string;
+    }) => void;
+};
 
-const Editor = ({initData, onSubmit}) =>{
+
+const Editor:React.FC<EditorProps> = ({initData, onSubmit}) =>{
     const [input, setInput] = useState({
         createdDate : new Date(),
         emotionId : 3,

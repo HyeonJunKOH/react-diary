@@ -2,11 +2,20 @@ import "./Viewer.css";
 import { getEmotionImage } from "../util/get-emotion-image";
 import { emotionList } from "../util/constants";
 
-const Viewer = ({ emotionId, content }) => {
+
+// Viewer 인터페이스 정의
+interface ViewerProps{
+  emotionId:number,
+  content:string
+}
+
+const Viewer:React.FC<ViewerProps> = ({ emotionId, content }) => {
   const emotionItem = emotionList.find(
     (item) => String(item.emotionId) === String(emotionId)
   );
 
+
+  const emotionImage = getEmotionImage(emotionId);
   return (
     <div className="Viewer">
       <section className="img_section">
@@ -14,7 +23,7 @@ const Viewer = ({ emotionId, content }) => {
         <div
           className={`emotion_img_wrapper emotion_img_wrapper_${emotionId}`}
         >
-          <img src={getEmotionImage(emotionId)} />
+          {emotionImage && <img src={emotionImage} alt={`Emotion ${emotionId}`} />}
           <div>{emotionItem.emotionName}</div>
         </div>
       </section>
