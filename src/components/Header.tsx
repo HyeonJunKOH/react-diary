@@ -4,8 +4,8 @@ import "./Header.css";
 // Header 인터페이스 정의
 interface HeaderProps{
     title: string,
-    leftChild: string,
-    rightChild: string
+    leftChild: React.ReactNode,
+    rightChild: React.ReactNode;
 }
 
 

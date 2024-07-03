@@ -38,7 +38,7 @@ const Editor:React.FC<EditorProps> = ({initData, onSubmit}) =>{
         }
     },[initData])
 
-    const onChangeInput = (e)=>{
+    const onChangeInput = (e:any)=>{
         let name = e.target.name;
         let value = e.target.value;
 

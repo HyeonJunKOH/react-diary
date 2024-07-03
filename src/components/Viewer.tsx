@@ -6,7 +6,7 @@ import { emotionList } from "../util/constants";
 // Viewer 인터페이스 정의
 interface ViewerProps{
   emotionId:number,
-  content:string
+  content:string,
 }
 
 const Viewer:React.FC<ViewerProps> = ({ emotionId, content }) => {
@@ -24,7 +24,7 @@ const Viewer:React.FC<ViewerProps> = ({ emotionId, content }) => {
           className={`emotion_img_wrapper emotion_img_wrapper_${emotionId}`}
         >
           {emotionImage && <img src={emotionImage} alt={`Emotion ${emotionId}`} />}
-          <div>{emotionItem.emotionName}</div>
+          <div>{emotionItem ? emotionItem.emotionName : '알수없음'}</div>
         </div>
       </section>
       <section className="content_section">
