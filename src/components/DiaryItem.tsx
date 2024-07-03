@@ -7,7 +7,7 @@ import "./DiaryItem.css";
 interface DiaryProps{
   id:number;
   emotionId:number;
-  createdDate:string;
+  createdDate:Date;
   content:string;
 }
 

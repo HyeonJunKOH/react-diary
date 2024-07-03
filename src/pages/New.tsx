@@ -7,11 +7,16 @@ import { DiaryDispatchContext } from "../App";
 import usePageTitle from "../hooks/usePageTitle";
 
 const New = () => {
-    const {onCreate} = useContext(DiaryDispatchContext);
+
+    const dispatchContext = useContext(DiaryDispatchContext);
+    if (!dispatchContext) {
+        throw new Error("DiaryDispatchContext should not be null");
+    }
+    const {onCreate} = dispatchContext;
     const nav = useNavigate();
     usePageTitle("새 일기 쓰기");
 
-    const onSubmit = (input)=>{
+    const onSubmit = (input:any)=>{
         onCreate(
             input.createdDate.getTime(),
             input.emotionId,
@@ -26,7 +31,9 @@ const New = () => {
                 leftChild={<Button 
                     onClick={()=>nav(-1)}
                     text={"< 뒤로가기"}/>}
-            />
+                rightChild
+                />
+            
             <Editor onSubmit={onSubmit}/>
         </div>
     );

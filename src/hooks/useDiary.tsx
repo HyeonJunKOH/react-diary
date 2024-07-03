@@ -2,12 +2,25 @@ import { useContext, useState, useEffect } from "react";
 import { DiaryStateContext } from "../App";
 import { useNavigate } from "react-router-dom";
 
-const useDiary = (id) => {
+
+interface DiaryItem {
+  id: number;
+  content: string;
+  createdDate: Date;
+  emotionId: number;
+}
+
+const useDiary = (id:number):DiaryItem|undefined => {
   const data = useContext(DiaryStateContext);
-  const [curDiaryItem, setCurDiaryItem] = useState();
+  const [curDiaryItem, setCurDiaryItem] = useState<DiaryItem | undefined>(undefined);
   const nav = useNavigate();
 
   useEffect(() => {
+
+    if (!data) {
+      return;
+    }
+
     const currentDiaryItem = data.find(
       (item) => String(item.id) === String(id)
     );

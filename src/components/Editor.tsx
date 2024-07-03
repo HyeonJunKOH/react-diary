@@ -9,7 +9,7 @@ import { getStringedDate } from '../util/get-stringed-date';
 // Editor 인터페이스 정의
 interface EditorProps {
     initData?: {
-        createdDate: string;
+        createdDate: Date;
         emotionId: number;
         content: string;
     };

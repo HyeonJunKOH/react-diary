@@ -9,7 +9,7 @@ import { ChangeEvent, useState } from "react";
 interface DiaryItemProps {
   id: number;
   emotionId: number;
-  createdDate: string;
+  createdDate: Date;
   content: string;
 }
 
