@@ -2,16 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { getEmotionImage } from "../util/get-emotion-image";
 import Button from "./Button";
 import "./DiaryItem.css";
+import { Diary } from "../App";
 
-// 다이어리 props 정의
-interface DiaryProps{
-  id:number;
-  emotionId:number;
-  createdDate:Date;
-  content:string;
-}
 
-const DiaryItem:React.FC<DiaryProps> = ({id, emotionId, createdDate, content}) => {
+const DiaryItem:React.FC<Diary> = ({id, emotionId, createdDate, content}) => {
   const nav = useNavigate();
 
   const goDiaryPage = () => {
@@ -23,18 +17,16 @@ const DiaryItem:React.FC<DiaryProps> = ({id, emotionId, createdDate, content}) =
   };
 
   const emotionImage = getEmotionImage(emotionId);
+  const emotionClassName = `img_section img_section_${emotionId}`; 
 
   return (
       <div className="DiaryItem">
-        <div
-          onClick={goDiaryPage}
-          className={`img_section img_section_${emotionId}`}
-        >
-        {emotionImage && <img src={emotionImage} alt={`Emotion ${emotionId}`} />}
+        <div onClick={goDiaryPage} className={emotionClassName}>
+          {emotionImage && <img src={emotionImage} alt={`Emotion ${emotionId}`} />}
         </div>
         <div onClick={goDiaryPage} className="info_section">
           <div className="created_date">
-            {new Date(createdDate).toLocaleDateString()}
+          {createdDate.toLocaleDateString()}
           </div>
           <div className="content">{content}</div>
         </div>

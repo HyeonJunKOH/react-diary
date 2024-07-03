@@ -3,19 +3,12 @@ import Button from "./Button";
 import DiaryItem from "./DiaryItem";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useState } from "react";
+import { Diary } from "../App";
 
-
-// DiaryItemProps 인터페이스 정의
-interface DiaryItemProps {
-  id: number;
-  emotionId: number;
-  createdDate: Date;
-  content: string;
-}
 
 // DiaryListProps 인터페이스 정의
 interface DiaryListProps {
-  data: DiaryItemProps[];
+  data: Pick<Diary, 'id' | 'emotionId' | 'createdDate' | 'content'>[];
 }
 
 
@@ -23,21 +16,23 @@ const DiaryList:React.FC<DiaryListProps> = ({ data }) => {
   const nav = useNavigate();
   const [sortType, setSortType] = useState<"latest" | "oldest">("latest");
 
-  const onChangeSortType = (e: ChangeEvent<HTMLSelectElement>) => {
+  const onChangeSortType = (e:any) => {
     setSortType(e.target.value as "latest" | "oldest");
   };
 
-  const getSortedData = (): DiaryItemProps[] => {
+  const getSortedData = (): Diary[] => {
     return[...data].toSorted((a, b) => {
       if (sortType === "oldest") {
-        return Number(a.createdDate) - Number(b.createdDate);
+        return a.createdDate.getTime() - b.createdDate.getTime();
       } else {
-        return Number(b.createdDate) - Number(a.createdDate);
+        return b.createdDate.getTime() - a.createdDate.getTime();
       }
     });
   };
 
   const sortedData = getSortedData();
+
+
 
   return (
     <div className="DiaryList">
@@ -52,6 +47,7 @@ const DiaryList:React.FC<DiaryListProps> = ({ data }) => {
           type={"POSITIVE"}
         />
       </div>
+      
       <div className="list_wrapper">
         {sortedData.map((item) => (
           <DiaryItem key={item.id} {...item} />
