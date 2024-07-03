@@ -28,10 +28,12 @@ const getMonthlyData = (pivotDate:Date, data:Diary[]):Diary[] => {
     59
   ).getTime();
 
-  return data.filter(
-    (item) =>
-      beginTime <= item.createdDate.getTime() && item.createdDate.getTime() <= endTime
-  );
+  return data.filter((item) => {
+    if (item.createdDate instanceof Date) {
+      return beginTime <= item.createdDate.getTime() && item.createdDate.getTime() <= endTime;
+    }
+    return false;
+  });
 };
 
 const Home = () => {
