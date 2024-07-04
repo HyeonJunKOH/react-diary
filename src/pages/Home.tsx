@@ -29,6 +29,7 @@ const getMonthlyData = (pivotDate:Date, data:Diary[]):Diary[] => {
   ).getTime();
 
   return data.filter((item) => {
+    // 타입 가드를 사용하여 item.createdDate가 Date인 경우에만 getTime()을 호출하도록 처리
     if (item.createdDate instanceof Date) {
       return beginTime <= item.createdDate.getTime() && item.createdDate.getTime() <= endTime;
     }

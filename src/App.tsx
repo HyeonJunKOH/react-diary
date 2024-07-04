@@ -17,7 +17,7 @@ import Notfound from "./pages/Notfound";
 // 일기 항목 타입 정의
 export interface Diary{
   id: number;
-  createdDate: Date;
+  createdDate: string;
   emotionId: number;
   content: string;
 }
@@ -65,8 +65,8 @@ function reducer(state:Diary[], action:Action):Diary[] {
 // 컨텍스트 타입 정의
 export const DiaryStateContext = createContext<Diary[] | null>(null);
 export const DiaryDispatchContext = createContext<{
-  onCreate: (createdDate: Date, emotionId: number, content: string) => void;
-  onUpdate: (id: number, createdDate: Date, emotionId: number, content: string) => void;
+  onCreate: (createdDate: string, emotionId: number, content: string) => void;
+  onUpdate: (id: number, createdDate: string, emotionId: number, content: string) => void;
   onDelete: (id: number) => void;
 } | null>(null);
 
@@ -105,7 +105,7 @@ function App() {
   }, []);
 
   // 새로운 일기 추가
-  const onCreate = (createdDate: Date, emotionId:number, content:string) => {
+  const onCreate = (createdDate: string, emotionId:number, content:string) => {
     dispatch({
       type: "CREATE",
       data: {
@@ -118,7 +118,7 @@ function App() {
   };
 
   // 기존 일기 수정
-  const onUpdate = (id:number, createdDate:Date, emotionId:number, content:string) => {
+  const onUpdate = (id:number, createdDate:string, emotionId:number, content:string) => {
     dispatch({
       type: "UPDATE",
       data: {

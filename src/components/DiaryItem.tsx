@@ -26,7 +26,7 @@ const DiaryItem:React.FC<Diary> = ({id, emotionId, createdDate, content}) => {
         </div>
         <div onClick={goDiaryPage} className="info_section">
           <div className="created_date">
-          {createdDate.toLocaleDateString()}
+          {new Date(createdDate).toLocaleDateString()}
           </div>
           <div className="content">{content}</div>
         </div>

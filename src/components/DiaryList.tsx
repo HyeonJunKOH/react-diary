@@ -16,22 +16,24 @@ const DiaryList:React.FC<DiaryListProps> = ({ data }) => {
   const nav = useNavigate();
   const [sortType, setSortType] = useState<"latest" | "oldest">("latest");
 
-  const onChangeSortType = (e:any) => {
+  const onChangeSortType = (e: ChangeEvent<HTMLSelectElement>) => {
     setSortType(e.target.value as "latest" | "oldest");
   };
 
   const getSortedData = (): Diary[] => {
     return[...data].toSorted((a, b) => {
+      const dateA = new Date(a.createdDate).getTime();
+      const dateB = new Date(b.createdDate).getTime();
+
       if (sortType === "oldest") {
-        return a.createdDate.getTime() - b.createdDate.getTime();
+        return dateA - dateB;
       } else {
-        return b.createdDate.getTime() - a.createdDate.getTime();
+        return dateA - dateB;
       }
     });
   };
 
   const sortedData = getSortedData();
-
 
 
   return (

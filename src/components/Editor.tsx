@@ -5,25 +5,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { emotionList } from '../util/constants';
 import { getStringedDate } from '../util/get-stringed-date';
+import { Diary } from "../App";
 
-// Editor 인터페이스 정의
+
 interface EditorProps {
-    initData?: {
-        createdDate: Date;
-        emotionId: number;
-        content: string;
-    };
-    onSubmit: (input: {
-        createdDate: Date;
-        emotionId: number;
-        content: string;
-    }) => void;
-};
+    initData?: Partial<Diary>; // 초기 데이터의 타입 정의
+    onSubmit: (data: Diary) => void; // onSubmit 콜백 함수의 타입 정의
+}
 
-
-const Editor:React.FC<EditorProps> = ({initData, onSubmit}) =>{
-    const [input, setInput] = useState({
-        createdDate : new Date(),
+const Editor= ({initData, onSubmit}:EditorProps) =>{
+    const [input, setInput] = useState<Partial<Diary>>({
+        createdDate : getStringedDate(new Date()),
         emotionId : 3,
         content: "",
     });
@@ -33,12 +25,12 @@ const Editor:React.FC<EditorProps> = ({initData, onSubmit}) =>{
         if(initData){
             setInput({
                 ...initData,
-                createdDate: new Date(Number(initData.createdDate)),
+                createdDate: getStringedDate(new Date(initData.createdDate)),
             });
         }
     },[initData])
 
-    const onChangeInput = (e:any)=>{
+    const onChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
         let name = e.target.name;
         let value = e.target.value;
 
@@ -52,8 +44,15 @@ const Editor:React.FC<EditorProps> = ({initData, onSubmit}) =>{
         });
     };
 
-    const onClickSubmitButton = ()=>{
-        onSubmit(input);
+    const onClickSubmitButton = () => {
+        if (input.createdDate && input.emotionId && input.content) {
+            onSubmit({
+                id: initData?.id || 0, // id는 선택적으로 설정하거나 초기화
+                createdDate: input.createdDate as string,
+                emotionId: input.emotionId as number,
+                content: input.content as string,
+            } as Diary);
+        }
     };
 
     return (
@@ -63,7 +62,7 @@ const Editor:React.FC<EditorProps> = ({initData, onSubmit}) =>{
                 <input
                     name='createdDate'
                     onChange={onChangeInput} 
-                    value={getStringedDate(input.createdDate)} 
+                    value={getStringedDate(input.createdDate as string)} 
                     type='date'
                 />
             </section>

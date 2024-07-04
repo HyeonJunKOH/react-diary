@@ -7,7 +7,11 @@ import {DiaryDispatchContext} from "../App";
 import useDiary from "../hooks/useDiary";
 import usePageTitle from "../hooks/usePageTitle";
 
-
+interface Input {
+    createdDate: Date;
+    emotionId: number;
+    content: string;
+}
 
 const Edit = () => {
     const params = useParams();
@@ -33,7 +37,9 @@ const Edit = () => {
         }
     };
 
-    const onSubmit=(input:any)=>{
+
+
+    const onSubmit=(input:Input)=>{
         if(window.confirm("일기를 정말 수정할까요?")){
             onUpdate(
                 Number(params.id), 

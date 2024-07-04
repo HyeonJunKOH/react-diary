@@ -5,20 +5,27 @@ import { useNavigate } from "react-router-dom";
 import { useContext} from "react";
 import { DiaryDispatchContext } from "../App";
 import usePageTitle from "../hooks/usePageTitle";
+import {Diary} from "../App";
+
+
 
 const New = () => {
+    const contextValue = useContext(DiaryDispatchContext);
 
-    const dispatchContext = useContext(DiaryDispatchContext);
-    if (!dispatchContext) {
-        throw new Error("DiaryDispatchContext should not be null");
+    if (!contextValue) {
+        // DiaryDispatchContext의 Provider가 제공되지 않은 경우 처리
+        // 예를 들어, 오류 메시지를 출력하거나 기본 동작을 설정할 수 있습니다.
+        console.error('DiaryDispatchContext의 Provider가 제공되지 않았습니다.');
+        return null; // 또는 다른 적절한 처리
     }
-    const {onCreate} = dispatchContext;
+
+    const {onCreate} = contextValue;
     const nav = useNavigate();
     usePageTitle("새 일기 쓰기");
 
-    const onSubmit = (input:any)=>{
+    const onSubmit = (input:Diary)=>{
         onCreate(
-            input.createdDate.getTime(),
+            input.createdDate,
             input.emotionId,
             input.content
         );
