@@ -16,7 +16,6 @@ interface EditorProps {
 const Editor= ({initData, onSubmit}:EditorProps) =>{
     const [input, setInput] = useState<Partial<Diary>>({
         createdDate : getStringedDate(new Date()),
-        emotionId : 3,
         content: "",
     });
     const nav = useNavigate();
@@ -25,17 +24,20 @@ const Editor= ({initData, onSubmit}:EditorProps) =>{
         if(initData){
             setInput({
                 ...initData,
-                createdDate: getStringedDate(new Date(initData.createdDate)),
+                createdDate: getStringedDate(new Date(initData.createdDate ?? new Date())),
             });
         }
     },[initData])
 
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
         let name = e.target.name;
-        let value = e.target.value;
+        let value:string | number = e.target.value;
 
-        if(name === "createdDate"){
-            value = new Date(value);
+        // 값의 타입에 따라 적절하게 변환
+        if (name === "createdDate") {
+            value = getStringedDate(new Date(value)); // Date 객체로 변환
+        } else if (name === "emotionId") {
+            value = Number(value); // 숫자로 변환
         }
 
         setInput({
@@ -62,7 +64,7 @@ const Editor= ({initData, onSubmit}:EditorProps) =>{
                 <input
                     name='createdDate'
                     onChange={onChangeInput} 
-                    value={getStringedDate(input.createdDate as string)} 
+                    value={getStringedDate(new Date(input.createdDate ?? new Date()))} 
                     type='date'
                 />
             </section>
@@ -75,7 +77,7 @@ const Editor= ({initData, onSubmit}:EditorProps) =>{
                                 onChangeInput({
                                     target : {
                                         name : "emotionId",
-                                        value : item.emotionId,
+                                        value : item.emotionId.toString(),
                                     },
                                 })
                             }

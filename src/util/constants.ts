@@ -1,4 +1,11 @@
-export const emotionList = [
+
+
+interface EmotionItem{
+    emotionId : number;
+    emotionName : string
+}
+
+export const emotionList: EmotionItem[] = [
     {
         emotionId: 1,
         emotionName: "완전 좋음",
