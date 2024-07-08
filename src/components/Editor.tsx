@@ -16,7 +16,8 @@ interface EditorProps {
 const Editor= ({initData, onSubmit}:EditorProps) =>{
     const [input, setInput] = useState<Partial<Diary>>({
         createdDate : getStringedDate(new Date()),
-        content: "",
+        emotionId:initData?.emotionId,
+        content: initData?.content || "",
     });
     const nav = useNavigate();
 
@@ -30,29 +31,29 @@ const Editor= ({initData, onSubmit}:EditorProps) =>{
     },[initData])
 
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
-        let name = e.target.name;
-        let value:string | number = e.target.value;
+        const { name, value: rawValue } = e.target;
 
-        // 값의 타입에 따라 적절하게 변환
+        let value: string | number = rawValue;
+
         if (name === "createdDate") {
-            value = getStringedDate(new Date(value)); // Date 객체로 변환
-        } else if (name === "emotionId") {
-            value = Number(value); // 숫자로 변환
+            value = getStringedDate(new Date(rawValue));
+        } else if (name === "emotionId" && typeof rawValue === "string") {
+            value = Number(rawValue);
         }
+        setInput(prev=> ({...prev, [name]:value}));
+    };
 
-        setInput({
-            ...input,
-            [name] : value,
-        });
+    const handleEmotionChange = (emotionId: number)=>{
+        setInput(prev=> ({...prev, emotionId}));
     };
 
     const onClickSubmitButton = () => {
         if (input.createdDate && input.emotionId && input.content) {
             onSubmit({
                 id: initData?.id || 0, // id는 선택적으로 설정하거나 초기화
-                createdDate: input.createdDate as string,
-                emotionId: input.emotionId as number,
-                content: input.content as string,
+                createdDate: input.createdDate,
+                emotionId: input.emotionId,
+                content: input.content,
             } as Diary);
         }
     };
@@ -73,17 +74,11 @@ const Editor= ({initData, onSubmit}:EditorProps) =>{
                 <div className='emotion_list_wrapper'>
                     {emotionList.map((item)=>(
                         <EmotionItem
-                            onClick={()=>
-                                onChangeInput({
-                                    target : {
-                                        name : "emotionId",
-                                        value : item.emotionId.toString(),
-                                    },
-                                })
-                            }
                             key={item.emotionId}
-                            {...item} 
+                            emotionId={item.emotionId}
+                            emotionName={item.emotionName}
                             isSelected={item.emotionId === input.emotionId}
+                            onEmotionChange={handleEmotionChange}
                         />
                     ))};
                 </div>

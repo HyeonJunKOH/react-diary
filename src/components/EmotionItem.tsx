@@ -8,21 +8,21 @@ interface EmotionItemProps{
     emotionId:number;
     emotionName:string;
     isSelected:boolean;
-    onClick: React.MouseEventHandler<HTMLDivElement>;
-
-    
+    onEmotionChange: (emotionId:number) => void;
 }
 
 
 
-const EmotionItem:React.FC<EmotionItemProps> = ({ emotionId, emotionName, isSelected, onClick }) => {
+
+const EmotionItem:React.FC<EmotionItemProps> = ({ emotionId, emotionName, isSelected, onEmotionChange }) => {
 
     const emotionImage = getEmotionImage(emotionId);
+    const selectedClass = isSelected ? `EmotionItem_on_${emotionId}` : "";
 
     return (
         <div
-            onClick={onClick} 
-            className={`EmotionItem ${isSelected ? "EmotionItem--selected" : ""}`}
+            onClick={()=>onEmotionChange(emotionId)} 
+            className={`EmotionItem ${selectedClass}`}
         >
             {emotionImage && <img src={emotionImage} className='emotion_img' alt={`Emotion ${emotionId}`} />}
             <div className='emotion_name'>{emotionName}</div>

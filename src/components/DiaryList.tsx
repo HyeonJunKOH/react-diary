@@ -25,11 +25,7 @@ const DiaryList:React.FC<DiaryListProps> = ({ data }) => {
       const dateA = new Date(a.createdDate).getTime();
       const dateB = new Date(b.createdDate).getTime();
 
-      if (sortType === "oldest") {
-        return dateA - dateB;
-      } else {
-        return dateA - dateB;
-      }
+      return sortType === "oldest" ? dateA - dateB : dateB - dateA;
     });
   };
 

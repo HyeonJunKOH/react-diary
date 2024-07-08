@@ -8,13 +8,13 @@ import useDiary from "../hooks/useDiary";
 import usePageTitle from "../hooks/usePageTitle";
 
 interface Input {
-    createdDate: Date;
+    createdDate: string;
     emotionId: number;
     content: string;
 }
 
 const Edit = () => {
-    const params = useParams();
+    const params = useParams<{ id?: string }>();
     const nav = useNavigate();
 
     // 타입 단언을 사용하여 context가 null이 아님을 보장
@@ -26,6 +26,10 @@ const Edit = () => {
     const {onDelete, onUpdate} = dispatchContext;
     const curDiaryItem = useDiary(Number(params.id));
     usePageTitle(`${params.id}번 일기 수정`);
+
+    if (!curDiaryItem) {
+        return <p>일기를 불러오는 데 실패했습니다.</p>;
+    }
 
     const onClickDelete = () =>{
         if(
@@ -43,7 +47,7 @@ const Edit = () => {
         if(window.confirm("일기를 정말 수정할까요?")){
             onUpdate(
                 Number(params.id), 
-                input.createdDate.getTime(),
+                input.createdDate,
                 input.emotionId, 
                 input.content
             );
